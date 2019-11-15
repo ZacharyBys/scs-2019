@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['DB_NAME'] = 'scs2019.db'
 
 @app.route('/')
 @cross_origin()
@@ -14,7 +15,7 @@ def hello():
 @app.route('/user', methods=["PUT"])
 @cross_origin()
 def create_user():
-    connection = sqlite3.connect('scs2019.db')
+    connection = sqlite3.connect(app.config['DB_NAME'])
 
     content = request.json
     user = content['user']
@@ -28,7 +29,7 @@ def create_user():
 @app.route('/login', methods = ['POST'])
 @cross_origin()
 def login():
-    connection = sqlite3.connect('scs2019.db')
+    connection = sqlite3.connect(app.config['DB_NAME'])
     cur = connection.cursor()
 
     content = request.json
@@ -48,7 +49,7 @@ def login():
 @app.route('/questions', methods=['GET'])
 @cross_origin()
 def questions():
-    connection = sqlite3.connect('scs2019.db')
+    connection = sqlite3.connect(app.config['DB_NAME'])
     cur = connection.cursor()
 
     if request.method == "GET":
@@ -63,13 +64,13 @@ def questions():
 @app.route('/quiz_attempt', methods=['PUT'])
 @cross_origin()
 def attempt():
-    connection = sqlite3.connect('scs2019.db')
+    connection = sqlite3.connect(app.config['DB_NAME'])
 
     content = request.json
     user = content['user']
     score = content['score']
 
-    connection.execute("INSERT INTO quiz_attempts (user, score) VALUES (?, ?)", (user, score))
+    connection.execute("INSERT INTO quiz_attempts (user, 'score') VALUES (?, ?)", (user, score))
     connection.commit()
     connection.close()
     return "OK"
@@ -77,7 +78,7 @@ def attempt():
 @app.route('/leaderboard', methods=['GET'])
 @cross_origin()
 def leaderboard():
-    connection = sqlite3.connect('scs2019.db')
+    connection = sqlite3.connect(app.config['DB_NAME'])
     curr = connection.cursor()
 
     curr.execute("SELECT * FROM quiz_attempts")
