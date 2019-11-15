@@ -2,6 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import './CreateAccount.css';
 import axios from 'axios';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 class CreateAccount extends Component {
     constructor(){
@@ -20,7 +24,7 @@ class CreateAccount extends Component {
             "user": this.state.user,
             "password":this.state.password
         }
-        axios.post(apiBaseUrl+'user', payload)
+        axios.put(apiBaseUrl+'user', payload)
         .then(function (response) {
                 console.log(response);
         })
