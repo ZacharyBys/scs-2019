@@ -15,7 +15,7 @@ def create_user():
     user = content['user']
     password = content['password']
 
-    connection.execute("INSERT INTO users VALUES (?, ?)", (user, password))
+    connection.execute("INSERT INTO users (user, password) VALUES (?, ?)", (user, password))
     connection.commit()
     connection.close()
     return "OK"
