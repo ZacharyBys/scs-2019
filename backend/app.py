@@ -60,6 +60,19 @@ def questions():
         questions = {'questions': fetched}
         return jsonify(fetched)
 
+@app.route('/quiz_attempt', methods=['PUT'])
+@cross_origin()
+def attempt():
+    connection = sqlite3.connect('scs2019.db')
+
+    content = request.json
+    user = content['user']
+    score = content['score']
+
+    connection.execute("INSERT INTO quiz_attempts (user, score) VALUES (?, ?)", (user, score))
+    connection.commit()
+    connection.close()
+    return "OK"
 
 
 if __name__ == '__main__':
