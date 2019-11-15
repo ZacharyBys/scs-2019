@@ -2,7 +2,9 @@
 
 #Backend
 
-`pip install -r requirements.txt`
+`pip install flask`
+
+`pip install flask-cors`
 
 `Run python app.py`
 
