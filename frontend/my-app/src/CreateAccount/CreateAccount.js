@@ -9,11 +9,11 @@ import TextField from 'material-ui/TextField';
 
 class CreateAccount extends Component {
     constructor(){
-        super();
-        this.state={
-            user:'',
-            password:''
-        }
+      super();
+      this.state={
+          user:'',
+          password:''
+      }
     }
 
     submit(event){
@@ -25,8 +25,13 @@ class CreateAccount extends Component {
             "password":this.state.password
         }
         axios.put(apiBaseUrl+'user', payload)
-        .then(function (response) {
+        .then((response) => {
                 console.log(response);
+                if(response.status==200){
+                  
+                  console.log(self);
+                  self.props.history.push('login');
+                }
         })
         .catch(function (error) {
             console.log(error);

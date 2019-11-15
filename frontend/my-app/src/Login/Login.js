@@ -25,8 +25,15 @@ class Login extends Component {
             "password":this.state.password
         }
         axios.post(apiBaseUrl+'login', payload)
-        .then(function (response) {
+        .then((response) => {
                 console.log(response);
+                console.log('gu')
+                if(response.status == 200){
+                  console.log('gu')
+                  console.log(self);
+                  self.props.updateUser(this.state.user);
+                  self.props.redirect('questions');
+                }
         })
         .catch(function (error) {
             console.log(error);
@@ -52,6 +59,10 @@ class Login extends Component {
                />
              <br/>
             <RaisedButton label="Submit" primary={true} onClick={(event) => this.submit(event)}/>
+            <RaisedButton label="Props" primary={true} onClick={(event) => console.log(this.props)}/>
+
+            <RaisedButton label="Send" primary={true} onClick={(event) => this.props.updateUserInfo()}/>
+
             </MuiThemeProvider>
 
         </div>
