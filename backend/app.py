@@ -1,13 +1,18 @@
 from flask import Flask, request, Response
 import sqlite3
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
+@cross_origin()
 def hello():
     return "Hello World!"
 
 @app.route('/user', methods=["PUT"])
+@cross_origin()
 def create_user():
     connection = sqlite3.connect('scs2019.db')
 
@@ -21,6 +26,7 @@ def create_user():
     return "OK"
 
 @app.route('/login', methods = ['POST'])
+@cross_origin()
 def login():
     connection = sqlite3.connect('scs2019.db')
     cur = connection.cursor()
