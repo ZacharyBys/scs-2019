@@ -6,6 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import './Login.css';
 import axios from 'axios';
+import history from '../history';
+
 
 class Login extends Component {
     constructor(){
@@ -32,7 +34,8 @@ class Login extends Component {
                   console.log('gu')
                   console.log(self);
                   self.props.updateUser(this.state.user);
-                  self.props.redirect('questions');
+
+                  self.props.history.history.push('questions')
                 }
         })
         .catch(function (error) {

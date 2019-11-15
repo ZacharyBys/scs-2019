@@ -5,13 +5,16 @@ import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Login from './Login/Login'
 import CreateAccount from './CreateAccount/CreateAccount'
 import Questions from './Questions/Questions'
+import history from './history';
 
 const UserInfoContext = React.createContext('userInfo');
 
 class App extends Component {
-
-  constructor(){
-    super();
+  static contextTypes = {
+    router: {}
+  }
+  constructor(props, context){
+    super(props, context);
     this.state={
       user : ''
     }
@@ -29,17 +32,19 @@ class App extends Component {
 
   redirect(path){
     console.log(this);
-    this.props.history.push(path);
+    this.state.history.push(path);
   }
 
   render(){
-    return(
-      <Router>
-        <div>
-          <Route path="/login" component={() => <Login userInfo={this.state.user} updateUser={this.updateUser} redirect={this.redirect}/>} />
-          <Route path="/account" component={() => <CreateAccount userInfo={this.state.user} updateUser={this.updateUser} redirect={this.redirect}/>} />
-          <Route path="/questions" component={() => <Questions userInfo={this.state.user}  updateUser={this.updateUser} redirect={this.redirect}/>} />
 
+    console.log(history);
+
+    return(
+      <Router history={history}>
+        <div>
+          <Route path="/login" component={(history) => <Login userInfo={this.state.user} history={history} updateUser={this.updateUser} redirect={this.redirect}/>} />
+          <Route path="/account" component={(history) => <CreateAccount userInfo={this.state.user} history={history} updateUser={this.updateUser} redirect={this.redirect}/>} />
+          <Route path="/questions" component={(history) => <Questions userInfo={this.state.user} history={history} updateUser={this.updateUser} redirect={this.redirect}/>} />
         </div>
     </Router>);
   }
