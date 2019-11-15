@@ -1,4 +1,5 @@
 import sqlite3
+from os import path
 
 def initialize(connection):
     connection.execute('''CREATE TABLE users (id INTEGER PRIMARY KEY, user text, password text)''')
@@ -14,4 +15,5 @@ def initialize(connection):
     connection.commit()
     connection.close()
 
-initialize(sqlite3.connect('scs2019.db'))
+if not path.exists('scs2019.db'):
+    initialize(sqlite3.connect('scs2019.db'))
