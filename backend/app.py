@@ -74,6 +74,29 @@ def attempt():
     connection.close()
     return "OK"
 
+@app.route('/leaderboard', methods=['GET'])
+@cross_origin()
+def leaderboard():
+    connection = sqlite3.connect('scs2019.db')
+    curr = connection.cursor()
+
+    curr.execute("SELECT * FROM quiz_attempts")
+    attempts = curr.fetchall()
+    connection.close()
+
+    users = {}
+    for attempt in attempts:
+        if attempt[0] not in users:
+            users[attempt[0]] = attempt[1]
+        else:
+            users[attempt[0]] = max(users[attempt[0]], attempt[1])
+
+    result = []
+    for key, val in users.items():
+        result.append((key, val))
+
+    return jsonify(sorted(result, key=lambda x: -x[1]))
+
 
 if __name__ == '__main__':
     app.run()
