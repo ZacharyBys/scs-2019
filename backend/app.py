@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 import sqlite3
 from flask_cors import CORS, cross_origin
 
@@ -44,6 +44,22 @@ def login():
         return Response("OK", status=200)
     else:
         return Response("Unauthorized", status=403)
+
+@app.route('/questions', methods=['GET'])
+@cross_origin()
+def questions():
+    connection = sqlite3.connect('scs2019.db')
+    cur = connection.cursor()
+
+    if request.method == "GET":
+        cur.execute("SELECT * FROM questions")
+        fetched = cur.fetchall()
+        connection.close()
+
+        # QUESTION = (id, question, answer, mc1, mc2, mc3, mc4)
+        questions = {'questions': fetched}
+        return jsonify(fetched)
+
 
 
 if __name__ == '__main__':
