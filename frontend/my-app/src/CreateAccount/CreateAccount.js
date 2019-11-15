@@ -30,8 +30,9 @@ class CreateAccount extends Component {
                 if(response.status==200){
                   
                   console.log(self);
-                  self.props.history.push('login');
-                }
+
+                  self.props.history.history.push('login')
+            }
         })
         .catch(function (error) {
             console.log(error);

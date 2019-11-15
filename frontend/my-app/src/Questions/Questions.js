@@ -134,10 +134,13 @@ class Questions extends Component {
     }
 
     submit(){
-        // let send = {
-        //     user: 
-        // }
-        axios.post(apiBaseUrl+'questions')
+        console.log(this.state);
+        console.log(this.props);
+        let send = {
+            user: this.props.userInfo,
+            score: this.state.score
+        }
+        axios.put(apiBaseUrl+'quiz_attempt', send)
         .then( (response) => {
                 console.log(response.data);
                 this.setState({questions:response.data})
@@ -156,58 +159,64 @@ class Questions extends Component {
 
     render(){
         const index = this.state.index;
-      return(
-        <div className="App">
-            <MuiThemeProvider>
-
-            <Grid columns={2}>
-                <Cell width={1} height={8} style={style1} onClick={this.answer1}>
-                    {this.state.questions[index] &&
-                    this.state.questions[index][3]}
-                
-                </Cell>
-                <Cell width={1} height={8} style={style2} onClick={this.answer2}>
-                    {this.state.questions[index] &&
-                    this.state.questions[index][4]}
-                
-                </Cell>
-                <Cell width={1} height={8} style={style3} onClick={this.answer3}>
-                    {this.state.questions[index] &&
-                    this.state.questions[index][5]}
-                
-                </Cell>
-                <Cell width={1} height={8} style={style4} onClick={this.answer4}>
-                    {this.state.questions[index] &&
-                    this.state.questions[index][6]}
-                
-                </Cell>
-
-            </Grid>
-            <button onClick={()=>console.log(this.state)}>Check state</button>
-            <button onClick={()=>this.setState({dialogOpen:true})}>Check dialog</button>
-
-
-            <Dialog
-                open={this.state.dialogOpen}
-                onClose={this.handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    {this.state.dialogText}
-                </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                    Close
-                </Button>
-                </DialogActions>
-            </Dialog>
-            </MuiThemeProvider>
-
-        </div>
-      )
+        if(this.props.userInfo){
+            return(
+                <div className="App">
+                    <MuiThemeProvider>
+        
+                    <Grid columns={2}>
+                        <Cell width={1} height={8} style={style1} onClick={this.answer1}>
+                            {this.state.questions[index] &&
+                            this.state.questions[index][3]}
+                        
+                        </Cell>
+                        <Cell width={1} height={8} style={style2} onClick={this.answer2}>
+                            {this.state.questions[index] &&
+                            this.state.questions[index][4]}
+                        
+                        </Cell>
+                        <Cell width={1} height={8} style={style3} onClick={this.answer3}>
+                            {this.state.questions[index] &&
+                            this.state.questions[index][5]}
+                        
+                        </Cell>
+                        <Cell width={1} height={8} style={style4} onClick={this.answer4}>
+                            {this.state.questions[index] &&
+                            this.state.questions[index][6]}
+                        
+                        </Cell>
+        
+                    </Grid>
+                    <button onClick={()=>console.log(this.state)}>Check state</button>
+                    <button onClick={()=>this.setState({dialogOpen:true})}>Check dialog</button>
+        
+        
+                    <Dialog
+                        open={this.state.dialogOpen}
+                        onClose={this.handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {this.state.dialogText}
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                            Close
+                        </Button>
+                        </DialogActions>
+                    </Dialog>
+                    </MuiThemeProvider>
+        
+                </div>
+              )
+        }
+        else{
+            return <div></div>;
+        }
+      
   }
 }
 

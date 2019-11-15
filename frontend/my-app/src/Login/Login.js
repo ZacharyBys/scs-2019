@@ -34,7 +34,6 @@ class Login extends Component {
                   console.log('gu')
                   console.log(self);
                   self.props.updateUser(this.state.user);
-
                   self.props.history.history.push('questions')
                 }
         })
@@ -44,32 +43,34 @@ class Login extends Component {
     }
 
     render(){
-      return(
-        <div className="App">
-            <MuiThemeProvider>
 
-           <TextField
-             hintText="Enter your Username"
-             floatingLabelText="Username"
-             onChange = {(event,newValue) => this.setState({user:newValue})}
-             />
-           <br/>
+        return(
+          <div className="App">
+              <MuiThemeProvider>
+  
              <TextField
-               type="password"
-               hintText="Enter your Password"
-               floatingLabelText="Password"
-               onChange = {(event,newValue) => this.setState({password:newValue})}
+               hintText="Enter your Username"
+               floatingLabelText="Username"
+               onChange = {(event,newValue) => this.setState({user:newValue})}
                />
              <br/>
-            <RaisedButton label="Submit" primary={true} onClick={(event) => this.submit(event)}/>
-            <RaisedButton label="Props" primary={true} onClick={(event) => console.log(this.props)}/>
+               <TextField
+                 type="password"
+                 hintText="Enter your Password"
+                 floatingLabelText="Password"
+                 onChange = {(event,newValue) => this.setState({password:newValue})}
+                 />
+               <br/>
+              <RaisedButton label="Submit" primary={true} onClick={(event) => this.submit(event)}/>
+              <RaisedButton label="Props" primary={true} onClick={(event) => console.log(this.props)}/>
+  
+              <RaisedButton label="Send" primary={true} onClick={(event) => this.props.updateUserInfo()}/>
+  
+              </MuiThemeProvider>
+  
+          </div>
+        )
 
-            <RaisedButton label="Send" primary={true} onClick={(event) => this.props.updateUserInfo()}/>
-
-            </MuiThemeProvider>
-
-        </div>
-      )
   }
 }
 
